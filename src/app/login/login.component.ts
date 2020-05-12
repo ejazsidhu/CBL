@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user_name', res.user.userName);
             localStorage.setItem('menu', JSON.stringify(res.list));
 
-            if(res.user.typeID==16)
+            if(res.user.typeID==16 || res.user.typeID==36)
             this.router.navigate(['/dashboard/merchandiser_List']);
             else
             this.router.navigate(['/dashboard']);
