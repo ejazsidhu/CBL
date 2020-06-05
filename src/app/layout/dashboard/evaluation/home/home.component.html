@@ -195,9 +195,15 @@
                                             {{score}}
                                         </label>
                                     </td>
-                                    <td>
+                                    <td *ngIf="isTotalScore==0">
                                         <label class="container" for="totalAchieveScore">
                                             {{totalAchieveScore  + availabilityCount}}
+                                        </label>
+
+                                    </td>
+                                    <td *ngIf="isTotalScore==1">
+                                        <label class="container" for="totalAchieveScore">
+                                            {{totalAchieveScore}}
                                         </label>
 
                                     </td>
@@ -303,7 +309,7 @@
 
                 </mat-radio-group>
 
-                <!-- <ng-container *ngIf="existingRemarks.length>0">
+                <ng-container *ngIf="existingRemarks.length>0">
                     <label id="example-radio-group-label"><strong>Previously Selected Remarks: </strong></label>
                     
                     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedRemarks">
@@ -315,7 +321,7 @@
                         </ng-container>
     
                     </mat-radio-group>
-                    </ng-container> -->
+                    </ng-container>
     
 
                 <div class="row" style="width:300px">

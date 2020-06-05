@@ -37,11 +37,13 @@ export class HomeComponent implements OnInit {
   selectedRemarksList: any = [];
   evaluationRemarks: any = [];
   selectedCriteria: any = {};
+  i = 0;
   evaluationArray: any = [];
   existingRemarks: any = [];
   selectedEvaluationRemark = -1;
   productList: any = [];
   msl: any;
+  isTotalScore = 0;
   userType: any;
   availabilityCount: number;
   cloneArray: any = [];
@@ -170,6 +172,32 @@ export class HomeComponent implements OnInit {
           }
           });
         }
+
+
+
+
+
+      if (this.existingRemarks.length > 0) {
+        for (const element1 of this.existingRemarks) {
+          for (const element of this.cloneArray) {
+            if (element1.criteriaId === element.id) {
+              if (this.cloneArray[this.i].remarkId) {
+              this.cloneArray[this.i].remarkId.push(element1.id);
+              this.i++;
+              } else {
+                this.cloneArray[this.i].remarkId = [];
+                this.cloneArray[this.i].remarkId.push(element1.id);
+                this.i++;
+              }
+          } else {
+          this.i++;
+          }
+        }
+        this.i = 0;
+      }
+    }
+
+
           this.msl = this.data.msl;
           this.isEditable = this.data.isEditable || this.isEditable;
           if (this.productList.length > 0) { this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(this.productList)); } // Math.round(this.getAvailabilityCount(this.productList));
@@ -303,12 +331,14 @@ export class HomeComponent implements OnInit {
     this.cloneArray.forEach(element => {
       if (element.totalAchievedScore) {
         score = element.totalAchievedScore;
+        this.isTotalScore = 1;
         delete element.totalAchievedScore;
         return score;
       } else {
       if (element.achievedScore >= 0 && element.id !== 5) {
         score = score + element.achievedScore;
       }
+      this.isTotalScore = 0;
     }
     });
 
