@@ -76,7 +76,7 @@ export class FilterBarComponent implements OnInit {
   selectedProduct: any = [];
   selectedImpactType: any = {};
   impactTypeList: any = [];
-  selectedOption=0;
+  selectedOption = 0;
 
   queryList: any = [];
   selectedQuery: any = {};
@@ -86,7 +86,7 @@ export class FilterBarComponent implements OnInit {
   loading = true;
   sortOrder = true;
   sortBy: 'completed';
-  selectedRemark =0;
+  selectedRemark = 0;
   remarksList = [];
   options: any = [{ title: 'By Visit Date', value: '1' }, { title: 'By Evaluation Date', value: '2' }];
 
@@ -459,7 +459,7 @@ export class FilterBarComponent implements OnInit {
   }
 
   dailyEvaluationRport() {
-    if (this.endDate >= this.startDate && this.selectedOption!==0) {
+    if (this.endDate >= this.startDate && this.selectedOption !== 0) {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
@@ -1010,8 +1010,8 @@ export class FilterBarComponent implements OnInit {
 
     this.loading = true;
     const obj: any = {
-      zoneId: this.selectedZone.id ? this.selectedZone.id : -1,
-      regionId: this.selectedRegion.id ? this.selectedRegion.id : -1,
+      zoneId: this.selectedZone.id ? this.selectedZone.id : localStorage.getItem('zoneId'),
+      regionId: this.selectedRegion.id ? this.selectedRegion.id : localStorage.getItem('regionId'),
       startDate: startDate,
       endDate: endDate,
       cityId: this.selectedCity.id || -1,

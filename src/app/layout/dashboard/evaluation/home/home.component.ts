@@ -59,6 +59,8 @@ export class HomeComponent implements OnInit {
   isNoNCritical = false;
   isDragging = false;
   selectedSoS: any = {};
+  reevaluatorRole: any;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -106,6 +108,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.availabilityCount = 0;
     this.userType = localStorage.getItem('user_type');
+    this.reevaluatorRole = localStorage.getItem('Reevaluator');
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -515,7 +518,7 @@ export class HomeComponent implements OnInit {
       const pl = JSON.parse(localStorage.getItem('productList'));
       this.getAvailabilityCount(pl);
       // tslint:disable-next-line:triple-equals
-      if (this.userType == 36) {
+      if (this.userType == this.reevaluatorRole) {
       const obj = {
         criteria: this.cloneArray,
         surveyId: this.surveyId,
@@ -529,8 +532,8 @@ export class HomeComponent implements OnInit {
         (data: any) => {
           // console.log('evaluated shop data',data);
           this.loading = false;
-
-          if (data.success) {
+          // tslint:disable-next-line:triple-equals
+          if (data.success == 'true') {
             this.hideRemarksModalWithNoChange();
             this.toastr.success('shop evaluated successfully ');
             this.evaluationArray = [];
@@ -539,8 +542,8 @@ export class HomeComponent implements OnInit {
             setTimeout(() => {
               window.close();
             }, 2000);
-          } else {
-            this.toastr.info(data.errorMessage, 'Info');
+          }  else {
+            this.toastr.error(data.errorMessage, 'error');
           }
         },
         error => {
@@ -564,7 +567,8 @@ export class HomeComponent implements OnInit {
           // console.log('evaluated shop data',data);
           this.loading = false;
 
-          if (data.success) {
+          // tslint:disable-next-line:triple-equals
+          if (data.success == 'true') {
             this.toastr.success('shop evaluated successfully ');
             this.evaluationArray = [];
             this.cloneArray = [];
@@ -572,8 +576,8 @@ export class HomeComponent implements OnInit {
             setTimeout(() => {
               window.close();
             }, 2000);
-          } else {
-            this.toastr.info(data.errorMessage, 'Info');
+          }  else {
+            this.toastr.error(data.errorMessage, 'error');
           }
         },
         error => {
