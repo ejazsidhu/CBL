@@ -20,11 +20,14 @@ export class HomeComponent implements OnInit {
   ip: any = this.configFile.ip;
   loading = false;
   selectedShop: any = {};
+  emailModal:any={}
 
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('remarksModal') remarksModal: ModalDirective;
   @ViewChild('sosModal') sosModal: ModalDirective;
-
+  @ViewChild('childModalEmail') childModalEmail: ModalDirective;
+ 
+ 
 
 
   score: any = 0;
@@ -546,5 +549,17 @@ export class HomeComponent implements OnInit {
     // else{
     //   this.toastr.info(`please select remarks for "${this.selectedCriteria.title}"`)
     // }
+  }
+
+  showChildEmailModal(): void {
+    this.childModalEmail.show();
+  }
+ 
+  hideChildEmailModal(): void {
+    this.childModalEmail.hide();
+  }
+  SubmitEmailForm(form){
+    form.value.URL=this.router.url
+    console.log("email form",form.value)
   }
 }

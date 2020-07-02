@@ -24,6 +24,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { SectionSixComponent } from './section-six/section-six.component';
 import {MatInputModule} from '@angular/material/input';
 import { SectionSevenViewComponent } from './section-seven-view/section-seven-view.component';
+import { StatModule } from 'src/app/shared/modules/stat/stat.module';
 @NgModule({
   declarations: [HomeComponent, DetailsPageComponent, MainPageComponent, 
     SectionOneViewComponent, SectionTwoViewComponent,
@@ -45,6 +46,7 @@ import { SectionSevenViewComponent } from './section-seven-view/section-seven-vi
     Ng5SliderModule,
     MatInputModule,
     MatFormFieldModule,
+    StatModule
   ]
 })
 export class EvaluationModule { }
