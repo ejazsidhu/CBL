@@ -76,6 +76,7 @@ export class FilterBarComponent implements OnInit {
   selectedProduct: any = [];
   selectedImpactType: any = {};
   impactTypeList: any = [];
+  selectedOption = 0;
 
   queryList: any = [];
   selectedQuery: any = {};
@@ -85,8 +86,9 @@ export class FilterBarComponent implements OnInit {
   loading = true;
   sortOrder = true;
   sortBy: 'completed';
-  selectedRemark=0;
-  remarksList=[];
+  selectedRemark = 0;
+  remarksList = [];
+  options: any = [{ title: 'By Visit Date', value: '1' }, { title: 'By Evaluation Date', value: '2' }];
 
   // @ViewChild('remarksModal') remarksModal: ModalDirective;
   // showRemarksModal(){this.remarksModal.show(); }
@@ -457,14 +459,15 @@ export class FilterBarComponent implements OnInit {
   }
 
   dailyEvaluationRport() {
-    if (this.endDate >= this.startDate) {
+    if (this.endDate >= this.startDate && this.selectedOption !== 0) {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
         startDate: moment(this.startDate).format('YYYY-MM-DD'),
         endDate: moment(this.endDate).format('YYYY-MM-DD'),
         zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1
+        regionId: this.selectedRegion.id || -1,
+        type: this.selectedOption
         // channelId: this.arrayMaker(this.selectedChannel),
       };
 
@@ -494,7 +497,7 @@ export class FilterBarComponent implements OnInit {
       );
     } else {
       this.clearLoading();
-      this.toastr.info('End date must be greater than start date', 'Date Selection');
+      this.toastr.info('Plz Enter a Valid Date and Type', 'Required Fields');
     }
   }
 
@@ -536,7 +539,7 @@ export class FilterBarComponent implements OnInit {
       );
     } else {
       this.clearLoading();
-      this.toastr.info('End date must be greater than start date', 'Date Selection');
+      this.toastr.info('Enter a valid Date and Type', 'Required Fields Selected');
     }
   }
 
@@ -1007,8 +1010,8 @@ export class FilterBarComponent implements OnInit {
 
     this.loading = true;
     const obj: any = {
-      zoneId: this.selectedZone.id ? this.selectedZone.id : -1,
-      regionId: this.selectedRegion.id ? this.selectedRegion.id : -1,
+      zoneId: this.selectedZone.id ? this.selectedZone.id : localStorage.getItem('zoneId'),
+      regionId: this.selectedRegion.id ? this.selectedRegion.id : localStorage.getItem('regionId'),
       startDate: startDate,
       endDate: endDate,
       cityId: this.selectedCity.id || -1,

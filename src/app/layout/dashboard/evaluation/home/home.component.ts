@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('remarksModal') remarksModal: ModalDirective;
+  @ViewChild('evaluationRemarksModal') evaluationRemarksModal: ModalDirective;
   @ViewChild('sosModal') sosModal: ModalDirective;
   @ViewChild('childModalEmail') childModalEmail: ModalDirective;
  
@@ -37,14 +38,21 @@ export class HomeComponent implements OnInit {
   remarksList: any = [];
   selectedRemarks: any = false;
   selectedRemarksList: any = [];
+  evaluationRemarks: any = [];
   selectedCriteria: any = {};
+  i = 0;
   evaluationArray: any = [];
+  existingRemarks: any = [];
+  selectedEvaluationRemark = -1;
   productList: any = [];
   msl: any;
+  isTotalScore = 0;
+  userType: any;
   availabilityCount: number;
   cloneArray: any = [];
   isFromShop = true;
   rotationDegree = 0;
+  j = -1;
   isEditable: any = false;
   selectedIndex = -1;
   criteriaDesireScore: any = 0;
@@ -53,7 +61,9 @@ export class HomeComponent implements OnInit {
   isCritical = true;
   isNoNCritical = false;
   isDragging = false;
-  selectedSoS: any ={};
+  selectedSoS: any = {};
+  reevaluatorRole: any;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -89,10 +99,10 @@ export class HomeComponent implements OnInit {
   };
 
   createTickForSlider(maxTicks) {
-    const result:any = [];
+    const result: any = [];
 
    for (let index = 0; index < maxTicks.score; index++) {
-     result.push({value:index});
+     result.push({value: index});
 
    }
     this.options.stepsArray = result;
@@ -100,6 +110,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
+    this.userType = localStorage.getItem('user_type');
+    this.reevaluatorRole = localStorage.getItem('Reevaluator');
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -142,7 +154,56 @@ export class HomeComponent implements OnInit {
           this.remarksList = this.data.remarks;
           this.productList = this.data.productList;
 
+          this.existingRemarks = this.data.ExistingRemarks || [];
+          this.evaluationRemarks = this.data.EvaluationRemarks || [];
+
           localStorage.setItem('productList', JSON.stringify(this.productList));
+
+           if (this.existingRemarks.length > 0) {
+            this.existingRemarks.forEach(element1 => {
+              if (element1.id > 0) {
+                const obj = {
+                  id: element1.id,
+                  description: element1.description,
+                  criteriaId: element1.criteriaId,
+                  isChecked: element1.isChecked
+                };
+            this.remarksList.forEach(element => {
+              const i = this.remarksList.findIndex(e => e.id === element1.id);
+              if (i !== -1) {
+                this.remarksList.splice(i, 1, obj);
+               }
+
+            });
+          }
+          });
+        }
+
+
+
+
+
+      if (this.existingRemarks.length > 0) {
+        for (const element1 of this.existingRemarks) {
+          for (const element of this.cloneArray) {
+            if (element1.criteriaId === element.id) {
+              if (this.cloneArray[this.i].remarkId) {
+              this.cloneArray[this.i].remarkId.push(element1.id);
+              this.i++;
+              } else {
+                this.cloneArray[this.i].remarkId = [];
+                this.cloneArray[this.i].remarkId.push(element1.id);
+                this.i++;
+              }
+          } else {
+          this.i++;
+          }
+        }
+        this.i = 0;
+      }
+    }
+
+
           this.msl = this.data.msl;
           this.isEditable = this.data.isEditable || this.isEditable;
           if (this.productList.length > 0) { this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(this.productList)); } // Math.round(this.getAvailabilityCount(this.productList));
@@ -236,6 +297,29 @@ export class HomeComponent implements OnInit {
     console.log('remarks list', this.selectedRemarksList);
   }
 
+  singleCheckboxChange(id) {
+      this.selectedEvaluationRemark = id;
+    }
+
+  evaluationRemark(event, id) {
+    console.log('checkbox event', !event.checked, id);
+
+    if (!event.checked) {
+      this.selectedRemarksList.push(id);
+    } else {
+      for (let i = 0; i < this.selectedRemarksList.length; i++) {
+        if (this.selectedRemarksList[i] === id) {
+          this.selectedRemarksList.splice(i, 1);
+        }
+      }
+    }
+    // this.selectedRemarksList.pop(id)
+
+    console.log('remarks list', this.selectedRemarksList);
+  }
+
+
+
   updateAchieveScore(id) {
     for (let index = 0; index < this.cloneArray.length; index++) {
       const element = this.cloneArray[index];
@@ -251,9 +335,17 @@ export class HomeComponent implements OnInit {
   getTotalAchieveScore() {
     let score = 0;
     this.cloneArray.forEach(element => {
+      if (element.totalAchievedScore) {
+        score = element.totalAchievedScore;
+        this.isTotalScore = 1;
+        delete element.totalAchievedScore;
+        return score;
+      } else {
       if (element.achievedScore >= 0 && element.id !== 5) {
         score = score + element.achievedScore;
       }
+      this.isTotalScore = 0;
+    }
     });
 
     return score;
@@ -363,6 +455,8 @@ export class HomeComponent implements OnInit {
 
     this.hideRemarkModalForCancelOption();
   }
+
+
   checkForCritical(criteria) {
     if (criteria.id === 14) {
       this.isCritical = true;
@@ -426,6 +520,43 @@ export class HomeComponent implements OnInit {
     if (req) {
       const pl = JSON.parse(localStorage.getItem('productList'));
       this.getAvailabilityCount(pl);
+      // tslint:disable-next-line:triple-equals
+      if (this.userType == this.reevaluatorRole) {
+      const obj = {
+        criteria: this.cloneArray,
+        surveyId: this.surveyId,
+        evaluatorId: user_id,
+        evaluationRemark: this.selectedEvaluationRemark,
+        msl: Math.round(this.availabilityCount),
+        status: this.checkForSlectedRemarks(this.cloneArray)
+      };
+
+      this.evaluationService.evaluateShop(obj).subscribe(
+        (data: any) => {
+          // console.log('evaluated shop data',data);
+          this.loading = false;
+          // tslint:disable-next-line:triple-equals
+          if (data.success == 'true') {
+            this.hideRemarksModalWithNoChange();
+            this.toastr.success('shop evaluated successfully ');
+            this.evaluationArray = [];
+            this.cloneArray = [];
+            this.indexList = [];
+            setTimeout(() => {
+              window.close();
+            }, 2000);
+          }  else {
+            this.toastr.error(data.errorMessage, 'error');
+          }
+        },
+        error => {
+          // console.log('evaluated shop error',error)
+          // window.close()
+          this.loading = false;
+          this.toastr.error(error.message, 'Error');
+        }
+      );
+    } else {
       const obj = {
         criteria: this.cloneArray,
         surveyId: this.surveyId,
@@ -439,7 +570,8 @@ export class HomeComponent implements OnInit {
           // console.log('evaluated shop data',data);
           this.loading = false;
 
-          if (data.success) {
+          // tslint:disable-next-line:triple-equals
+          if (data.success == 'true') {
             this.toastr.success('shop evaluated successfully ');
             this.evaluationArray = [];
             this.cloneArray = [];
@@ -447,8 +579,8 @@ export class HomeComponent implements OnInit {
             setTimeout(() => {
               window.close();
             }, 2000);
-          } else {
-            this.toastr.info(data.errorMessage, 'Info');
+          }  else {
+            this.toastr.error(data.errorMessage, 'error');
           }
         },
         error => {
@@ -458,6 +590,9 @@ export class HomeComponent implements OnInit {
           this.toastr.error(error.message, 'Error');
         }
       );
+
+    }
+
     }
   }
 
@@ -527,8 +662,24 @@ export class HomeComponent implements OnInit {
 
   showRemarksModal() {
     this.criteriaDesireScore = 0; // this.selectedCriteria.achievedScore;
+
+    if (this.existingRemarks.length > 0) {
+      this.existingRemarks.forEach(element => {
+              if (element.id > 0 && element.criteriaId === this.selectedCriteria.id) {
+                this.selectedRemarksList.push(element.id);
+              }
+            });
+    }
+
     this.remarksModal.show();
   }
+
+  showEvaluationRemarksModal() {
+
+    this.evaluationRemarksModal.show();
+  }
+
+
 
   hideRemarkModalForCancelOption() {
     if (this.selectedCriteria.isEditable) {
@@ -562,4 +713,8 @@ export class HomeComponent implements OnInit {
     form.value.URL=this.router.url
     console.log("email form",form.value)
   }
+hideRemarksModalWithNoChange() {
+  this.evaluationRemarksModal.hide();
+}
+
 }
