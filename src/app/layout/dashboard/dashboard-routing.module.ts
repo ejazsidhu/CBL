@@ -29,6 +29,8 @@ import { ShopsForSingleRouteComponent } from './innerComponents/upload-routes/ro
 import { AddDeviceComponent } from './innerComponents/add-device/add-device.component';
 import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-wwwr-summary/supervisor-wwwr-summary.component';
 import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
+import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
+
 
 const routes: Routes = [
     {
@@ -61,6 +63,7 @@ const routes: Routes = [
             { path: 'upload_routes/single_route_details', component: SingleRouteDetailComponent },
             { path: 'upload_routes/shops_for_single_route', component: ShopsForSingleRouteComponent },
             { path: 'add_device', component: AddDeviceComponent },
+            { path: 'merchandiser_roster', component: MerchandiserRosterComponent }
 
 
 

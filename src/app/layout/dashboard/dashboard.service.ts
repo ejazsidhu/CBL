@@ -339,4 +339,19 @@ configFile = config;
       return this.http.post(url, obj
       );
     }
+
+    getMerchandiserRoaster(obj) {
+      const urlEncode = this.UrlEncodeMaker(obj);
+      const url = this.ip + 'merchandiser-roaster';
+      return this.http.post(url, urlEncode, this.httpOptions);
+    }
+
+    getEvaluatorList() {
+
+      const filter = JSON.stringify({act: 15});
+      const url = this.ip + 'loadFilters';
+      return this.http.post(url, filter);
+
+    }
+
 }
