@@ -20,15 +20,15 @@ export class HomeComponent implements OnInit {
   ip: any = this.configFile.ip;
   loading = false;
   selectedShop: any = {};
-  emailModal:any={}
+  emailModal:any = {};
 
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('remarksModal') remarksModal: ModalDirective;
   @ViewChild('evaluationRemarksModal') evaluationRemarksModal: ModalDirective;
   @ViewChild('sosModal') sosModal: ModalDirective;
   @ViewChild('childModalEmail') childModalEmail: ModalDirective;
- 
- 
+
+
 
 
   score: any = 0;
@@ -249,8 +249,13 @@ export class HomeComponent implements OnInit {
       products = localStorage.getItem('productList');
     }
     const pro = products.map(p => p.available_sku);
+    if (pro.length > 0) {
     const sum = pro.reduce((a, v) => a + v);
     return (sum / pro.length) * this.msl;
+    } else {
+      return pro;
+    }
+
   }
 
   getCriteriaWithRemarks(remarks, criteria) {
@@ -705,13 +710,13 @@ export class HomeComponent implements OnInit {
   showChildEmailModal(): void {
     this.childModalEmail.show();
   }
- 
+
   hideChildEmailModal(): void {
     this.childModalEmail.hide();
   }
-  SubmitEmailForm(form){
-    form.value.URL=this.router.url
-    console.log("email form",form.value)
+  SubmitEmailForm(form) {
+    form.value.URL = this.router.url;
+    console.log('email form', form.value);
   }
 hideRemarksModalWithNoChange() {
   this.evaluationRemarksModal.hide();
