@@ -22,28 +22,16 @@ import { positionElements } from 'ngx-bootstrap';
 
 export class HomeComponent implements OnInit {
 
+
+  constructor(private httpService: DashboardService,private router:Router) { }
+
   tabsData: any = [];
   loading = true;
   date=Date();
 
 
-  constructor(private httpService: DashboardService,private router:Router) { }
 
-  ngOnInit() {
-    this.getData();
-    interval(300000).subscribe(i=>{this.getData()})
-    this.httpService.checkDate();
-    // this.initMap()
-    let userType=JSON.parse(localStorage.getItem("user_type"))
 
-    if(userType==16){
-      this.router.navigate(['/dashboard/merchandiser_List'])
-    }
-  }
-
-  
-
-  
 // doughnut chart
 public doughnutChartLabels: any[] = ['CBL', 'Competition',];
   public doughnutChartData: any = [
@@ -82,14 +70,14 @@ public pieChartOptions: ChartOptions = {
       // label: function(tooltipItem, data) {
       //   return data['datasets'][0]['data'][tooltipItem['index']];
       // },
-      afterLabel: function(tooltipItem, data) {
-        var dataset = data['datasets'][0];
-        var percent = Math.round((dataset['data'][tooltipItem['index']]))
-        return '(' + percent + '%)';
-      }
+      // afterLabel: function(tooltipItem, data) {
+      //   var dataset = data['datasets'][0];
+      //   var percent = Math.round((dataset['data'][tooltipItem['index']]))
+      //   return '(' + percent + '%)';
+      // }
     }
   },
-  // plugins: {   
+  // plugins: {
   //   datalabels: {
   //     formatter: (value, ctx) => {
   //       const label = ctx.chart.data.labels[ctx.dataIndex];
@@ -107,7 +95,7 @@ public pieChartLegend = true;
 // public pieChartPlugins = [pluginDataLabels];
 public pieChartColors = [
   {
-    // 
+    //
     backgroundColor: ['#AFFCAF','#FCAFAF'],
   },
 ];
@@ -116,6 +104,18 @@ public pieChartColors2 = [
     backgroundColor: [ '#FFA726','#00B8F0'],
   },
 ];
+
+  ngOnInit() {
+    this.getData();
+    interval(300000).subscribe(i=>{this.getData()})
+    this.httpService.checkDate();
+    // this.initMap()
+    let userType=JSON.parse(localStorage.getItem("user_type"))
+
+    if(userType==16){
+      this.router.navigate(['/dashboard/merchandiser_List'])
+    }
+  }
 public chartClicked( e: any ): void {
   if (e.active.length > 0) {
     const chart = e.active[0]._chart;
@@ -134,18 +134,18 @@ public chartClicked( e: any ): void {
 // pie chart end
 
 
- 
+
 
   getData() {
     this.tabsData=[];
     this.loading=true;
-    let d=Date();
-    let obj: any = {
+    const d=Date();
+    const obj: any = {
       typeId:1,
       startDate: moment(d).format('YYYY-MM-DD'),
       endDate: moment(d).format('YYYY-MM-DD'),
     userId:localStorage.getItem('user_id'),
-    }
+    };
     this.httpService.getDashboardData(obj).subscribe(data => {
       console.log(data, 'home data');
       this.tabsData = data;
@@ -157,7 +157,7 @@ public chartClicked( e: any ): void {
     }, error => {
       console.log(error, 'home error')
 
-    })
+    });
 
   }
 
@@ -175,7 +175,7 @@ public chartClicked( e: any ): void {
   //   // var marker = new google.maps.Marker({position: marksman, map: map});
   //   var infowindow = new google.maps.InfoWindow();
   //   var marker, i ,markserList;
-  //   for (i = 0; i < locations.length; i++) {  
+  //   for (i = 0; i < locations.length; i++) {
   //     var url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
   //     if(i==2){
   //       url="http://maps.google.com/mapfiles/ms/icons/green-dot.png";
@@ -204,7 +204,7 @@ public chartClicked( e: any ): void {
   //       });
   //     }
 
-      
+
   //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
   //       return function() {
   //         infowindow.setContent(locations[i][0]);
@@ -212,7 +212,7 @@ public chartClicked( e: any ): void {
   //       }
   //     })(marker, i));
 
-     
+
 
   //     // marker.Circle.bindTo(new google.maps.LatLng(locations[i][1], locations[i][2]), marker, new google.maps.LatLng(locations[i][1], locations[i][2]));
   //   }
@@ -221,8 +221,8 @@ public chartClicked( e: any ): void {
   //   // for (var j = 0; j < markserList.length; j++) {
   //   //  bounds.extend(markserList[j].getPosition());
   //   // }
-    
+
   //   // map.fitBounds(bounds);
-    
+
   // }
 }

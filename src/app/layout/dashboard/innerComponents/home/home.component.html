@@ -21,6 +21,12 @@
                             </div>
                             <div class="col-md-2">
                                 <div>
+                                    <app-stat [bgClass]="'pink'" [icon]="'assignment'" [count]="tabsData?.oorTotal" [label]="'Out Of Route'">
+                                    </app-stat>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div>
                                     <app-stat [bgClass]="'warn'" [icon]="'check_circle'" [count]="tabsData?.completed" [label]="'Productive'">
                                     </app-stat>
                                 </div>
@@ -30,12 +36,7 @@
                                     <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="tabsData?.successful" [label]="'Successful'"></app-stat>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-
-                                <div>
-                                    <app-stat [bgClass]="'danger'" [icon]="'thumb_down'" [count]="tabsData?.unsuccessful" [label]="'Un-Successful'"></app-stat>
-                                </div>
-                            </div>
+                            
 
                             <div class="col-md-2">
                                 <div>
