@@ -29,15 +29,21 @@ export class MerchandiserRosterComponent implements OnInit {
   userTypeId: any;
   ReEvaluatorId: any;
   obj: any = {};
-  merchandiserList: any = [];
+  merchandiserList: any;
+  myMap = new Map();
   loading = true;
   loadingData: boolean;
   regions: any = [];
   p = 1;
   selectedFileType: {};
+  ids: Array<number>;
+  flag = -1;
+
+
   sortOrder = true;
   sortBy: 'merchandiser_code';
   constructor(private httpService: DashboardService, private toastr: ToastrService, private excelService: ExcelService) {
+    this.ids = [1, 2, 3, 4, 5, 6, 7];
     this.zones = JSON.parse(localStorage.getItem('zoneList'));
   }
 
@@ -74,7 +80,7 @@ export class MerchandiserRosterComponent implements OnInit {
     this.httpService.getMerchandiserRoaster(this.obj).subscribe((data: any) => {
       // console.log('merchandiser list for evaluation',data);
       if (data) {
-        this.merchandiserList = data;
+        this.myMap = data;
         this.loadingData = false;
         this.loading = false;
       }
@@ -147,4 +153,14 @@ export class MerchandiserRosterComponent implements OnInit {
     }, 1000);
   }
 
+
+  putValue(map, index) {
+    for (const element of map) {
+      // tslint:disable-next-line:triple-equals
+      if (element.key == index) {
+        return element.value;
+      }
+    }
+    return '';
+  }
 }
