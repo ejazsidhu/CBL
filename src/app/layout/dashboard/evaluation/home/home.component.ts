@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import {Location} from '@angular/common';
 import { ResizeEvent } from 'angular-resizable-element';
 import { config } from 'src/assets/config';
 
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   ip: any = this.configFile.ip;
   loading = false;
   selectedShop: any = {};
-  emailModal:any = {};
+  emailModal: any = {};
 
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('remarksModal') remarksModal: ModalDirective;
@@ -40,15 +41,18 @@ export class HomeComponent implements OnInit {
   selectedRemarksList: any = [];
   evaluationRemarks: any = [];
   selectedCriteria: any = {};
+  visitDay = '';
   i = 0;
   evaluationArray: any = [];
   existingRemarks: any = [];
   selectedEvaluationRemark = -1;
+
   productList: any = [];
   msl: any;
   isTotalScore = 0;
   userType: any;
   availabilityCount: number;
+  p: any = {};
   cloneArray: any = [];
   isFromShop = true;
   rotationDegree = 0;
@@ -61,6 +65,7 @@ export class HomeComponent implements OnInit {
   isCritical = true;
   isNoNCritical = false;
   isDragging = false;
+  surveyorId = -1;
   selectedSoS: any = {};
   reevaluatorRole: any;
 
@@ -70,6 +75,7 @@ export class HomeComponent implements OnInit {
     private activatedRoutes: ActivatedRoute,
     private httpService: EvaluationService,
     private evaluationService: EvaluationService,
+    private readonly location: Location
 
   ) {
     this.surveyId;
@@ -78,6 +84,7 @@ export class HomeComponent implements OnInit {
       if (q.location) { this.isFromShop = false; }
     });
     this.activatedRoutes.params.subscribe(params => {
+      this.p = params;
       this.surveyId = params.id;
 
       const obj = {
@@ -110,6 +117,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
+    this.location.replaceState('/details/');
     this.userType = localStorage.getItem('user_type');
     this.reevaluatorRole = localStorage.getItem('Reevaluator');
   }
@@ -142,7 +150,25 @@ export class HomeComponent implements OnInit {
       data => {
         if (data) {
           this.data = data;
+          if (this.p.isEditable) {
+            this.isEditable = false;
+            document.title = this.data.section[0].sectionTitle;
+            if (this.data.criteria) {
+              this.evaluationArray = this.data.criteria;
+              this.cloneArray = this.evaluationArray.slice();
+              this.totalAchieveScore = this.getTotalAchieveScore();
+            }
 
+            // console.log(this.data)
+            this.remarksList = this.data.remarks;
+
+            this.existingRemarks = this.data.ExistingRemarks || [];
+           this.setRemarksForReEvaluation();
+           this.checkEvaluatedRemarks();
+
+            if (this.data.criteria) { this.calculateScore(); }
+
+           } else {
           document.title = this.data.section[0].sectionTitle;
           if (this.data.criteria) {
             this.evaluationArray = this.data.criteria;
@@ -159,60 +185,23 @@ export class HomeComponent implements OnInit {
 
           localStorage.setItem('productList', JSON.stringify(this.productList));
 
-           if (this.existingRemarks.length > 0) {
-            this.existingRemarks.forEach(element1 => {
-              if (element1.id > 0) {
-                const obj = {
-                  id: element1.id,
-                  description: element1.description,
-                  criteriaId: element1.criteriaId,
-                  isChecked: element1.isChecked
-                };
-            this.remarksList.forEach(element => {
-              const i = this.remarksList.findIndex(e => e.id === element1.id);
-              if (i !== -1) {
-                this.remarksList.splice(i, 1, obj);
-               }
-
-            });
-          }
-          });
-        }
-
-
-
-
-
-      if (this.existingRemarks.length > 0) {
-        for (const element1 of this.existingRemarks) {
-          for (const element of this.cloneArray) {
-            if (element1.criteriaId === element.id) {
-              if (this.cloneArray[this.i].remarkId) {
-              this.cloneArray[this.i].remarkId.push(element1.id);
-              this.i++;
-              } else {
-                this.cloneArray[this.i].remarkId = [];
-                this.cloneArray[this.i].remarkId.push(element1.id);
-                this.i++;
-              }
-          } else {
-          this.i++;
-          }
-        }
-        this.i = 0;
-      }
-    }
-
-
+          // tslint:disable-next-line:triple-equals
+          if (this.userType == this.reevaluatorRole) {
+            this.checkEvaluatedRemarks();
+            this.setRemarksForReEvaluation();
+            }
           this.msl = this.data.msl;
-          this.isEditable = this.data.isEditable || this.isEditable;
+          this.isEditable = true;
           if (this.productList.length > 0) { this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(this.productList)); } // Math.round(this.getAvailabilityCount(this.productList));
           if (this.data.criteria) { this.calculateScore(); }
         }
+      }
       },
       error => {}
     );
   }
+
+
 
   calculateMSLAgain(products) {
     this.msl = this.data.msl;
@@ -220,6 +209,54 @@ export class HomeComponent implements OnInit {
     this.productList = localStorage.getItem('productList');
 
     this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(products)); // Math.round(this.getAvailabilityCount(products));
+  }
+
+
+
+  setRemarksForReEvaluation() {
+    if (this.existingRemarks.length > 0) {
+      for (const element1 of this.existingRemarks) {
+        for (const element of this.cloneArray) {
+          if (element1.criteriaId === element.id) {
+            if (this.cloneArray[this.i].remarkId) {
+            this.cloneArray[this.i].remarkId.push(element1.id);
+            this.i++;
+            } else {
+              this.cloneArray[this.i].remarkId = [];
+              this.cloneArray[this.i].remarkId.push(element1.id);
+              this.i++;
+            }
+        } else {
+        this.i++;
+        }
+      }
+      this.i = 0;
+    }
+  }
+  }
+
+
+  checkEvaluatedRemarks() {
+    if (this.existingRemarks.length > 0) {
+      this.existingRemarks.forEach(element1 => {
+        if (element1.id > 0) {
+          const obj = {
+            id: element1.id,
+            description: element1.description,
+            criteriaId: element1.criteriaId,
+            remarkType: element1.remarkType,
+            isChecked: element1.isChecked
+          };
+      this.remarksList.forEach(element => {
+        const i = this.remarksList.findIndex(e => e.id === element1.id);
+        if (i !== -1) {
+          this.remarksList.splice(i, 1, obj);
+         }
+
+      });
+    }
+    });
+  }
   }
 
   getMSLNAvailbilityCount(products) {
@@ -523,6 +560,15 @@ export class HomeComponent implements OnInit {
     //   }});
 
     if (req) {
+      for (const element of this.data.shopDetails.tagsList) {
+        // tslint:disable-next-line:triple-equals
+        if (element.heading == 'surveyorId') {
+          this.surveyorId = element.value;
+       // tslint:disable-next-line:triple-equals
+      } else if (element.heading == 'Visit Date') {
+        this.visitDay = element.value;
+      }
+      }
       const pl = JSON.parse(localStorage.getItem('productList'));
       this.getAvailabilityCount(pl);
       // tslint:disable-next-line:triple-equals
@@ -531,6 +577,8 @@ export class HomeComponent implements OnInit {
         criteria: this.cloneArray,
         surveyId: this.surveyId,
         evaluatorId: user_id,
+        surveyorId: this.surveyorId,
+        visitDate: this.visitDay,
         evaluationRemark: this.selectedEvaluationRemark,
         msl: Math.round(this.availabilityCount),
         status: this.checkForSlectedRemarks(this.cloneArray)
@@ -565,6 +613,8 @@ export class HomeComponent implements OnInit {
       const obj = {
         criteria: this.cloneArray,
         surveyId: this.surveyId,
+        surveyorId: this.surveyorId,
+        visitDate: this.visitDay,
         evaluatorId: user_id,
         msl: Math.round(this.availabilityCount),
         status: this.checkForSlectedRemarks(this.cloneArray)

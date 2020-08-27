@@ -5,12 +5,13 @@ import { DetailsPageComponent } from './details-page/details-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
-  { path: '',redirectTo:'list' ,pathMatch:'full' },
-  { path: 'list', component:MainPageComponent,
-children:[
-  { path: '', redirectTo:'home',pathMatch:'full'},
-  { path: 'home',component:DetailsPageComponent },
-  { path: 'details/:id',component:HomeComponent },
+  { path: '', redirectTo: 'list' , pathMatch: 'full' },
+  { path: 'list', component: MainPageComponent,
+children: [
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'home', component: DetailsPageComponent },
+  { path: 'details/:id', component: HomeComponent },
+  { path: 'details/:id/:isEditable', component: HomeComponent },
 
 ] },
 ];

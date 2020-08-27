@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { EvaluationRoutingModule } from './evaluation-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -7,7 +8,7 @@ import { DetailsPageComponent } from './details-page/details-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { SectionOneViewComponent } from './section-one-view/section-one-view.component';
-import { SectionTwoViewComponent } from './section-two-view/section-two-view.component'
+import { SectionTwoViewComponent } from './section-two-view/section-two-view.component';
 import { FormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import { SectionThreeViewComponent } from './section-three-view/section-three-view.component';
@@ -24,12 +25,11 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { SectionSixComponent } from './section-six/section-six.component';
 import {MatInputModule} from '@angular/material/input';
 import { SectionSevenViewComponent } from './section-seven-view/section-seven-view.component';
-import { StatModule } from 'src/app/shared/modules/stat/stat.module';
 @NgModule({
-  declarations: [HomeComponent, DetailsPageComponent, MainPageComponent, 
+  declarations: [HomeComponent, DetailsPageComponent, MainPageComponent,
     SectionOneViewComponent, SectionTwoViewComponent,
-     SectionThreeViewComponent, SectionFourViewComponent, 
-     SectionFiveComponent,SectionSixComponent, SectionSevenViewComponent],
+     SectionThreeViewComponent, SectionFourViewComponent,
+     SectionFiveComponent, SectionSixComponent, SectionSevenViewComponent],
   imports: [
     CommonModule,
     EvaluationRoutingModule,
@@ -46,7 +46,7 @@ import { StatModule } from 'src/app/shared/modules/stat/stat.module';
     Ng5SliderModule,
     MatInputModule,
     MatFormFieldModule,
-    StatModule
+    MatExpansionModule
   ]
 })
 export class EvaluationModule { }

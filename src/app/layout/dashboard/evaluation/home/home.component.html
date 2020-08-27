@@ -35,7 +35,7 @@
 
             </div>
             <div class="content">
-                <button type="button" class="btn btn-primary" (click)="showChildEmailModal()">Open Email Modal</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="showChildEmailModal()">Open Email Modal</button> -->
 
 
                 <div class="row justify-content-center-between " mwlResizable (resizeEnd)="onResizeEnd($event)" [enableGhostResize]="true" [resizeEdges]="{bottom: true, right: true, top: true, left: true}">
@@ -123,6 +123,7 @@
                 </div>
             </div>
         </div>
+        <ng-container *ngIf="!p.isEditable && (userType==16 || userType==reevaluatorRole)">
         <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
             <div class="card">
                 <div class="row">
@@ -252,6 +253,134 @@
 
             </div>
         </div>
+        </ng-container>
+
+        <ng-container *ngIf="p.isEditable">
+            <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
+              <div class="card">
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered sm-table table-hover" style="line-height:1">
+                      <thead class="thead-light">
+                        <tr style="  text-align: center; ">
+                          <th>Title</th>
+                          <th>Score</th>
+                          <th>Achieved</th>
+                        </tr>
+                      </thead>
+                      <!-- {{cloneArray[0] | json }} -->
+                      <tbody>
+                        
+                        <tr *ngFor="let item of cloneArray;let i=index" style="  text-align: center; ">
+                          <ng-container *ngIf="!item.remarkId">
+                          <td>
+                            <label class="container" style="margin-bottom: 8px;">
+                              <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
+        
+                            </label>
+                          </td>
+                          <td>
+                            <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
+                              {{item?.score}}
+                            </label>
+                          </td>
+        
+                          <td>                
+                            <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
+                              <span>
+                                {{item?.achievedScore}}
+                              </span>
+                      
+                            </label>
+                          </td>
+                      </ng-container>
+                      <ng-container *ngIf="item.remarkId">
+                       <td>
+                          <mat-accordion>
+                              <mat-expansion-panel (opened)="panelOpenState = true"
+                          (closed)="panelOpenState = false" >
+                          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                            <label class="container" style="margin-bottom: 8px;">
+                              <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
+        
+                            </label>
+                       
+                          <mat-panel-description>
+                          </mat-panel-description>
+                          </mat-expansion-panel-header>
+                          <ng-container *ngFor="let remark of remarksList">
+                  
+                            <li *ngIf="remark.criteriaId==item.id && remark.isChecked==1" >
+                              <span style="font-size: 80%; color : red;"> {{remark.description}} </span>
+                            </li>
+              
+                        </ng-container>
+                          </mat-expansion-panel>
+                          </mat-accordion>
+                        </td>
+                        <td>
+                          <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
+                            {{item?.score}}
+                          </label>
+                        </td>
+        
+                        <td>                
+                          <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
+                            <span>
+                              {{item?.achievedScore}}
+                            </span>
+                    
+                          </label>
+        
+                        </td>
+                      </ng-container>
+                      
+                      
+                        </tr>
+                        <!-- <hr> -->
+        
+                      
+                        <!-- <hr> -->
+                      </tbody>
+        
+                    </table>
+                    <!-- <ng-container *ngIf="userType!=15">
+                      <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
+                          <button [disabled]="loading" class="btn btn-primary" (click)="showEmailModal()">
+                              <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
+                              Send Email</button>
+                      </div>
+                    </ng-container> -->
+                  </div>
+        
+            
+                </div>
+        
+                <hr>
+        
+        
+        
+        
+                <div class="row justify-content-center">
+                  <ng-container class="mt-2 justify-content-center " *ngIf="data?.shopDetails?.tagsList">
+                    <div class="col-md-11 mt-1 ">
+                      <table class="table table-bordered sm-table">
+                        <tr *ngFor="let tab of data?.shopDetails?.tagsList;let j=index ">
+                          <th style="background: lightgray; ">{{tab.heading}}</th>
+                          <td style="word-break: break-word ">{{tab.value}}</td>
+                        </tr>
+        
+                      </table>
+        
+                    </div>
+                  </ng-container>
+                </div>
+        
+              </div>
+            </div>
+          </ng-container>
+      
+
     </div>
 
 </div>
