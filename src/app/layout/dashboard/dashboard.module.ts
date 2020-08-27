@@ -51,6 +51,9 @@ import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-www
 import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
+import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-error-report.component';
+import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
+import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
 
 @NgModule({
     imports: [
@@ -93,6 +96,6 @@ ReactiveFormsModule
           TposmDeploymentReportComponent, LineChartComponent,
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
-          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent]
+          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent]
 })
 export class DashboardModule {}

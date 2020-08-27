@@ -31,6 +31,9 @@ import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-www
 import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
+import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-error-report.component';
+import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
+import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
 
 
 const routes: Routes = [
@@ -65,7 +68,12 @@ const routes: Routes = [
             { path: 'upload_routes/shops_for_single_route', component: ShopsForSingleRouteComponent },
             { path: 'add_device', component: AddDeviceComponent },
             { path: 'merchandiser_roster', component: MerchandiserRosterComponent },
-            { path: 'capturedAbnormalUnvisited', component: UniqueBasedProductivityReportComponent }
+            { path: 'capturedAbnormalUnvisited', component: UniqueBasedProductivityReportComponent },
+            { path: 'vo_error_report', component: VoErrorReportComponent},
+            { path: 'merchandiser_score', component: MerchandiserScoreComponent },
+            { path: 'merchandiser_wise_score', component: MerchandiserWiseScoreComponent },
+            { path: 'merchandiser_score/:surveyorId/:startDate/:endDate', component: MerchandiserScoreComponent }
+
 
 
         ]

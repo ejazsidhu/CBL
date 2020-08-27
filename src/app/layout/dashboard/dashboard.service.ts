@@ -353,5 +353,18 @@ configFile = config;
       return this.http.post(url, filter);
 
     }
+    getMerchandiserScore(obj) {
+
+      const urlEncode = this.UrlEncodeMaker(obj);
+      const url = this.ip + 'merchandiserScore';
+      return this.http.post(url, urlEncode, this.httpOptions);
+    }
+
+    getMerchandiserWiseScore(obj) {
+
+      const urlEncode = this.UrlEncodeMaker(obj);
+      const url = this.ip + 'merchandiserWiseScore';
+      return this.http.post(url, urlEncode, this.httpOptions);
+    }
 
 }
