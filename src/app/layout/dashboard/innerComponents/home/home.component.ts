@@ -144,7 +144,9 @@ public chartClicked( e: any ): void {
       typeId:1,
       startDate: moment(d).format('YYYY-MM-DD'),
       endDate: moment(d).format('YYYY-MM-DD'),
-    userId:localStorage.getItem('user_id'),
+      userId:localStorage.getItem('user_id'),
+      regionId: localStorage.getItem('regionId'),
+      zoneId: localStorage.getItem('zoneId'),
     };
     this.httpService.getDashboardData(obj).subscribe(data => {
       console.log(data, 'home data');

@@ -250,6 +250,7 @@ export class FilterBarComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
+        reportType: this.selectedQuery.type,
         typeId: this.selectedQuery.id,
         startDate: moment(this.startDate).format('YYYY-MM-DD'),
         endDate: moment(this.endDate).format('YYYY-MM-DD')
