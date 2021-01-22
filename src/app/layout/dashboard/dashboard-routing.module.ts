@@ -34,6 +34,7 @@ import { UniqueBasedProductivityReportComponent } from './innerComponents/unique
 import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-error-report.component';
 import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
 import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
+import {SupervisorProductivityComponent} from './innerComponents/supervisor-productivity/supervisor-productivity.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
             { path: 'vo_error_report', component: VoErrorReportComponent},
             { path: 'merchandiser_score', component: MerchandiserScoreComponent },
             { path: 'merchandiser_wise_score', component: MerchandiserWiseScoreComponent },
+            { path: 'supervisor_productivity', component: SupervisorProductivityComponent },
             { path: 'merchandiser_score/:surveyorId/:startDate/:endDate', component: MerchandiserScoreComponent }
 
 

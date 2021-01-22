@@ -54,6 +54,7 @@ import { UniqueBasedProductivityReportComponent } from './innerComponents/unique
 import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-error-report.component';
 import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
 import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
+import { SupervisorProductivityComponent } from './innerComponents/supervisor-productivity/supervisor-productivity.component';
 
 @NgModule({
     imports: [
@@ -96,6 +97,6 @@ ReactiveFormsModule
           TposmDeploymentReportComponent, LineChartComponent,
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
-          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent]
+          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, SupervisorProductivityComponent]
 })
 export class DashboardModule {}

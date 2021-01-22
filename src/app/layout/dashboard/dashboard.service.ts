@@ -135,7 +135,7 @@ export class DashboardService {
   }
 
   merchandiserShopListCBL(obj) {
-    const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
+    const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}&type=${obj.type}`;
     const url = this.ip + "merchandiserShopListCBL";
     return this.http.post(url, body, this.httpOptions);
     // .pipe(

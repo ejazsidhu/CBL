@@ -352,6 +352,10 @@ export class FilterBarComponent implements OnInit {
     ) {
       this.getTabsData();
     }
+    if(this.router.url === "/dashboard/supervisor_productivity")
+    {
+      this.getSupTabsData();
+    }
 
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       (data) => {
@@ -390,6 +394,10 @@ export class FilterBarComponent implements OnInit {
       this.router.url === "/dashboard/merchandiser_attendance"
     ) {
       this.getTabsData();
+    }
+    if(this.router.url === "/dashboard/supervisor_productivity")
+    {
+      this.getSupTabsData();
     }
     if (this.router.url !== "/dashboard/daily_visit_report") {
       this.loadingData = true;
@@ -1178,7 +1186,74 @@ export class FilterBarComponent implements OnInit {
       }
     );
   }
+  getSupTabsData(data?: any, dateType?: string) {
+    this.loadingData = true;
+    let startDate =
+      dateType === "start"
+        ? moment(data).format("YYYY-MM-DD")
+        : moment(this.startDate).format("YYYY-MM-DD");
+    let endDate =
+      dateType === "end"
+        ? moment(data).format("YYYY-MM-DD")
+        : moment(this.endDate).format("YYYY-MM-DD");
 
+
+    this.loading = true;
+    const obj: any = {
+      zoneId: this.selectedZone.id
+        ? this.selectedZone.id
+        : localStorage.getItem("zoneId"),
+      regionId: this.selectedRegion.id
+        ? this.selectedRegion.id
+        : localStorage.getItem("regionId"),
+      startDate: startDate,
+      endDate: endDate,
+      cityId: this.selectedCity.id || -1,
+      type:2,
+      channelId: -1,
+    };
+    localStorage.setItem("obj", JSON.stringify(obj));
+    this.getSupTableData(obj);
+
+    this.httpService.getDashboardData(obj).subscribe(
+      (data) => {
+        // console.log(data, 'home data');
+        this.loadingData = false;
+        const res: any = data;
+        if (res) {
+          this.tabsData = data;
+        }
+        this.loading = false;
+        // if (res.planned == 0)
+        //   this.toastr.info('No data available for current selection', 'Summary')
+      },
+      (error) => {
+        this.clearLoading();
+
+        console.log(error, "home error");
+      }
+    );
+  }
+  getSupTableData(obj) {
+    this.httpService.merchandiserShopListCBL(obj).subscribe(
+      (data) => {
+        console.log(data, "table data");
+        const res: any = data;
+
+        if (res) {
+          this.tableData = res;
+        }
+        this.loading = false;
+        // if (res.planned == 0)
+        //   this.toastr.info('No data available for current selection', 'Summary')
+      },
+      (error) => {
+        this.clearLoading();
+
+        console.log(error, "home error");
+      }
+    );
+  }
   // getMerchandiserDetailPage(id){
   //   this.router.navigate
   // }
