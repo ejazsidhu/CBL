@@ -105,9 +105,8 @@
                         <td>{{product?.product_title}}</td>
                         <td *ngIf="isEditable" style="cursor:pointer" (click)="toggleValue(product)" [ngClass]="{'background-color': product?.MSL=='Yes'}">
                             {{updateString(product?.available_sku)}}
-
                         </td>
-                        <td *ngIf="!isEditable">
+                        <td *ngIf="!isEditable" [ngClass]="{'background-color': product?.MSL=='Yes'}">
                             {{updateString(product?.available_sku)}}
 
                         </td>
