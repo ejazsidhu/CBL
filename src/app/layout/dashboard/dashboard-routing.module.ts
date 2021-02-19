@@ -35,7 +35,7 @@ import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-err
 import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
 import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
 import {SupervisorProductivityComponent} from './innerComponents/supervisor-productivity/supervisor-productivity.component';
-
+import { MerchandiserPlannedCallsComponent } from './innerComponents/merchandiser-planned-calls/merchandiser-planned-calls.component';
 
 const routes: Routes = [
     {
@@ -74,8 +74,8 @@ const routes: Routes = [
             { path: 'merchandiser_score', component: MerchandiserScoreComponent },
             { path: 'merchandiser_wise_score', component: MerchandiserWiseScoreComponent },
             { path: 'supervisor_productivity', component: SupervisorProductivityComponent },
-            { path: 'merchandiser_score/:surveyorId/:startDate/:endDate', component: MerchandiserScoreComponent }
-
+            { path: 'merchandiser_score/:surveyorId/:startDate/:endDate', component: MerchandiserScoreComponent },
+            {path: 'merchandiser-planned-calls', component: MerchandiserPlannedCallsComponent},
 
 
         ]

@@ -55,6 +55,7 @@ import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-err
 import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
 import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
 import { SupervisorProductivityComponent } from './innerComponents/supervisor-productivity/supervisor-productivity.component';
+import { MerchandiserPlannedCallsComponent } from './innerComponents/merchandiser-planned-calls/merchandiser-planned-calls.component';
 
 @NgModule({
     imports: [
@@ -97,6 +98,6 @@ ReactiveFormsModule
           TposmDeploymentReportComponent, LineChartComponent,
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
-          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, SupervisorProductivityComponent]
+          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, MerchandiserRosterComponent, UniqueBasedProductivityReportComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, SupervisorProductivityComponent, MerchandiserPlannedCallsComponent]
 })
 export class DashboardModule {}
