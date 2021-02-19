@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
   surveyorId = -1;
   selectedSoS: any = {};
   reevaluatorRole: any;
+  surveyorType:any;
 
   constructor(
     private router: Router,
@@ -89,7 +90,7 @@ export class HomeComponent implements OnInit {
 
       const obj = {
         surveyId: this.surveyId,
-        userTypeId: localStorage.getItem('user_type')
+        userTypeId: localStorage.getItem('user_type'),
         // userId:localStorage.getItem('user_id')
       };
 
@@ -150,7 +151,7 @@ export class HomeComponent implements OnInit {
       data => {
         if (data) {
           this.data = data;
-          if (this.p.isEditable) {
+          if (this.p.notEditable) {
             this.isEditable = false;
             document.title = this.data.section[0].sectionTitle;
             if (this.data.criteria) {
@@ -185,13 +186,16 @@ export class HomeComponent implements OnInit {
 
           localStorage.setItem('productList', JSON.stringify(this.productList));
 
+          if(this.userType == 16 || this.userType== this.reevaluatorRole){
+          this.isEditable = true;
+        }
+
           // tslint:disable-next-line:triple-equals
           if (this.userType == this.reevaluatorRole) {
             this.checkEvaluatedRemarks();
             this.setRemarksForReEvaluation();
             }
           this.msl = this.data.msl;
-          this.isEditable = true;
           if (this.productList.length > 0) { this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(this.productList)); } // Math.round(this.getAvailabilityCount(this.productList));
           if (this.data.criteria) { this.calculateScore(); }
         }

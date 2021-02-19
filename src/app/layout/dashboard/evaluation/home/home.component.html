@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <ng-container *ngIf="!p.isEditable && (userType==16 || userType==reevaluatorRole)">
+        <ng-container *ngIf="!p.notEditable && (userType==16 || userType==reevaluatorRole)">
         <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
             <div class="card">
                 <div class="row">
@@ -255,7 +255,7 @@
         </div>
         </ng-container>
 
-        <ng-container *ngIf="p.isEditable">
+        <ng-container *ngIf="p.notEditable">
             <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
               <div class="card">
                 <div class="row">

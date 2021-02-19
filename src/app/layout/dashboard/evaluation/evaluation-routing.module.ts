@@ -11,7 +11,7 @@ children: [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: DetailsPageComponent },
   { path: 'details/:id', component: HomeComponent },
-  { path: 'details/:id/:isEditable', component: HomeComponent },
+  { path: 'details/:id/:notEditable', component: HomeComponent },
 
 ] },
 ];
