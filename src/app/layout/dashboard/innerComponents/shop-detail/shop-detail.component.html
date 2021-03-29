@@ -104,7 +104,7 @@
                     <!-- <table class="table" (click)="getPdf(item);" style="cursor:pointer"> -->
                     <table class="table" style="cursor:pointer">
 
-                        <tr *ngFor="let item2 of tableData[i].itemList" (click)="goToEvaluation(item.surveyId)">
+                        <tr *ngFor="let item2 of tableData[i].itemList" (click)="goToEvaluation(item)">
                             <!-- test -->
                             <th>{{item2.heading}}</th>
                             <td>{{item2.value}}</td>

@@ -33,8 +33,8 @@ export class ShopDetailComponent implements OnInit {
    showChildModal(): void {
     this.childModal.show();
   }
-  goToEvaluation(id) {
-  window.open(`${environment.hash}dashboard/evaluation/list/details/${id}?location=shop`, '_blank');
+  goToEvaluation(item) {
+  window.open(`${environment.hash}dashboard/evaluation/list/details/${item.surveyId}?location=shop`, '_blank');
   }
   hideChildModal(): void {
     this.childModal.hide();
