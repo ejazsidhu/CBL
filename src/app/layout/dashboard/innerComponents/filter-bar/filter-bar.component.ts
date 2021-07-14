@@ -161,7 +161,7 @@ export class FilterBarComponent implements OnInit {
   }
 
   getQueryTypeList() {
-    this.httpService.getQueryTypeList().subscribe(
+    this.httpService.getQueryTypeList(-1).subscribe(
       (data) => {
         console.log("qurry list", data);
         if (data) {
@@ -1243,6 +1243,7 @@ export class FilterBarComponent implements OnInit {
       distributionId: this.selectedDistribution.id || -1,
       storeType: this.selectedStoreType || null,
       channelId: -1,
+      type:1
     };
     localStorage.setItem("obj", JSON.stringify(obj));
     this.getTableData(obj);
