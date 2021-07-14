@@ -382,4 +382,22 @@ export class DashboardService {
     const url = this.ip + "evaluatorSummaryData";
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+
+  getZoneByCluster(clusterId) {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({
+      act: 18,
+      userId: this.user_id,
+      clusterId: clusterId,
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getRegions() {
+    const url = this.ip + "loadFilters";
+    const filter = JSON.stringify({ act: 13 });
+    return this.http.post(url, filter);
+  }
+
 }

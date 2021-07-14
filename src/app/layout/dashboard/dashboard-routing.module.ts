@@ -84,6 +84,10 @@ const routes: Routes = [
     { path: 'shop_detail/:id', component: ShopDetailComponent },
 
     { path: 'evaluation', loadChildren: './evaluation/evaluation.module#EvaluationModule' },
+    {
+        path: "instogram",
+        loadChildren: "./instotracker/instotracker.module#InstotrackerModule",
+      },
 
 ];
 
