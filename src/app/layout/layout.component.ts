@@ -12,12 +12,22 @@ export class LayoutComponent implements OnInit {
 
     ngOnInit() {
         let url: any = new Array();
-        url = this.router.url.split('/');
+        url = this.router.url.split(/[?/]/);
         let t: any = url.find(d => d === 'shop_detail');
         let r:any=url.find(d => d === 'details');
-        if (t || r) {
+        let i:any=url.find(d => d === 'instogram');
+        if (t || r || i) {
             this.hideSideBar = true
         }
 
     }
+
+    
+  hideBarStatus() {
+    if (this.hideSideBar === true) {
+      this.hideSideBar = false;
+    } else {
+      this.hideSideBar = true;
+    }
+  }
 }
